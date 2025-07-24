@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -29,6 +31,12 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images;
+
+    @OneToMany(mappedBy = "product",  cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<CartItem> cartItems = new HashSet<>();
+
+    @OneToMany(mappedBy = "product",  cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<OrderItem> orderItems = new HashSet<>();
 
 
     public Product(String name, String brand, BigDecimal price, int inventory, String description, Category category) {
