@@ -16,6 +16,13 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
 
 
+//    @Override
+//    public Category addCategory(Category category) {
+//        if (categoryRepository.existsByName(category.getName())) {
+//            throw new EntityNotFoundException(category.getName() + " already exists!");
+//        }
+//        return categoryRepository.save(category);
+//    }
     @Override
     public Category addCategory(Category category) {
         return Optional.of(category)
@@ -24,6 +31,15 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new EntityNotFoundException(category.getName() + " already exists!"));
     }
 
+//    @Override
+//    public Category updateCategory(Category category, Long categoryId) {
+//        Category oldCategory = findCategoryById(categoryId);
+//        if (oldCategory == null) {
+//            throw new EntityNotFoundException("Category not found");
+//        }
+//        oldCategory.setName(category.getName());
+//        return categoryRepository.save(oldCategory);
+//    }
     @Override
     public Category updateCategory(Category category, Long categoryId) {
         return Optional.ofNullable(findCategoryById(categoryId)).map(oldCategory -> {
@@ -32,6 +48,12 @@ public class CategoryServiceImpl implements CategoryService {
         }).orElseThrow(() -> new EntityNotFoundException("Category not found"));
     }
 
+//    @Override
+//    public void deleteCategory(Long categoryId) {
+//        Category category = categoryRepository.findById(categoryId)
+//                .orElseThrow(() -> new EntityNotFoundException("Category not found!"));
+//        categoryRepository.delete(category);
+//    }
     @Override
     public void deleteCategory(Long categoryId) {
        categoryRepository.findById(categoryId)
