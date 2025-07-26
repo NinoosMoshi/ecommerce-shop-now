@@ -25,6 +25,21 @@ public class ProductServiceImpl implements ProductService {
     private final OrderItemRepository orderItemRepository;
 
 
+//    @Override
+//    public Product addProduct(AddProductDTO productDTO) {
+//        if (productExists(productDTO.getName(), productDTO.getBrand())) {
+//            throw new EntityExistsException(productDTO.getName() + " already exists!");
+//        }
+//
+//        Category category = categoryRepository.findByName(productDTO.getCategory().getName());
+//        if (category == null) {
+//            category = new Category(productDTO.getCategory().getName());
+//            category = categoryRepository.save(category);
+//        }
+//
+//        productDTO.setCategory(category);
+//        return productRepository.save(createProduct(productDTO, category));
+//    }
     @Override
     public Product addProduct(AddProductDTO productDTO) {
         if (productExists(productDTO.getName(), productDTO.getBrand())) {
@@ -39,6 +54,15 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.save(createProduct(productDTO, category));
     }
 
+
+//    @Override
+//    public Product updateProduct(UpdateProductDTO productDTO, Long productId) {
+//        Product existingProduct = productRepository.findById(productId)
+//                .orElseThrow(() -> new EntityNotFoundException("Product not found!"));
+//
+//        updateExistingProduct(existingProduct, productDTO);
+//        return productRepository.save(existingProduct);
+//    }
     @Override
     public Product updateProduct(UpdateProductDTO productDTO, Long productId) {
         return productRepository.findById(productId)
@@ -54,6 +78,37 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
+
+//    @Override
+//    public void deleteProductById(Long productId) {
+//        Product product = productRepository.findById(productId)
+//                .orElseThrow(() -> new EntityNotFoundException("Product not found!"));
+//
+//        // Remove product from cart items
+//        List<CartItem> cartItems = cartItemRepository.findByProductId(productId);
+//        for (CartItem cartItem : cartItems) {
+//            Cart cart = cartItem.getCart();
+//            cart.removeItem(cartItem);
+//            cartItemRepository.delete(cartItem);
+//        }
+//
+//        // Remove product reference from order items
+//        List<OrderItem> orderItems = orderItemRepository.findByProductId(productId);
+//        for (OrderItem orderItem : orderItems) {
+//            orderItem.setProduct(null);
+//            orderItemRepository.save(orderItem);
+//        }
+//
+//        // Remove product from its category
+//        Category category = product.getCategory();
+//        if (category != null) {
+//            category.getProducts().remove(product);
+//            product.setCategory(null);
+//        }
+//
+//        // Delete product
+//        productRepository.deleteById(product.getId());
+//    }
     @Override
     public void deleteProductById(Long productId) {
         productRepository.findById(productId)
