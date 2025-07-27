@@ -1,12 +1,14 @@
 package com.ninos.dto;
 
 import com.ninos.model.Category;
+import com.ninos.model.Image;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
-public class UpdateProductDTO {
+public class ProductDTO {
     private Long id;
     private String name;
     private String brand;
@@ -14,4 +16,5 @@ public class UpdateProductDTO {
     private int inventory;
     private String description;
     private Category category;
+    private List<ImageDTO> images;
 }

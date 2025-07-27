@@ -1,4 +1,4 @@
-package com.ninos.dto;
+package com.ninos.request;
 
 import com.ninos.model.Category;
 import lombok.Data;

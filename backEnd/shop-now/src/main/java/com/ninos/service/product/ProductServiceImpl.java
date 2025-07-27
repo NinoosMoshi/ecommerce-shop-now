@@ -1,7 +1,7 @@
 package com.ninos.service.product;
 
-import com.ninos.dto.AddProductDTO;
-import com.ninos.dto.UpdateProductDTO;
+import com.ninos.request.AddProductDTO;
+import com.ninos.request.UpdateProductDTO;
 import com.ninos.model.*;
 import com.ninos.repository.CartItemRepository;
 import com.ninos.repository.CategoryRepository;
