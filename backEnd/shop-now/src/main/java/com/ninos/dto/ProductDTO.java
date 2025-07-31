@@ -1,7 +1,6 @@
 package com.ninos.dto;
 
 import com.ninos.model.Category;
-import com.ninos.model.Image;
 import lombok.Data;
 
 import java.math.BigDecimal;
