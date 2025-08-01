@@ -1,5 +1,6 @@
 package com.ninos.service.product;
 
+import com.ninos.dto.ProductDTO;
 import com.ninos.request.AddProductDTO;
 import com.ninos.request.UpdateProductDTO;
 import com.ninos.model.Product;
@@ -18,5 +19,8 @@ public interface ProductService {
     List<Product> getProductsByBrandAndName(String brand, String name);
     List<Product> getProductsByBrand(String brand);
     List<Product> getProductsByName(String name);
+
+    List<ProductDTO> getConvertedProducts(List<Product> products);
+    ProductDTO convertToProductDTO(Product product);
 
 }

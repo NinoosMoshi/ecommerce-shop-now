@@ -1,19 +1,20 @@
 package com.ninos.service.product;
 
+import com.ninos.dto.ImageDTO;
+import com.ninos.dto.ProductDTO;
+import com.ninos.repository.*;
 import com.ninos.request.AddProductDTO;
 import com.ninos.request.UpdateProductDTO;
 import com.ninos.model.*;
-import com.ninos.repository.CartItemRepository;
-import com.ninos.repository.CategoryRepository;
-import com.ninos.repository.OrderItemRepository;
-import com.ninos.repository.ProductRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,9 +24,11 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryRepository categoryRepository;
     private final CartItemRepository cartItemRepository;
     private final OrderItemRepository orderItemRepository;
+    private final ModelMapper modelMapper;
+    private final ImageRepository imageRepository;
 
 
-//    @Override
+    //    @Override
 //    public Product addProduct(AddProductDTO productDTO) {
 //        if (productExists(productDTO.getName(), productDTO.getBrand())) {
 //            throw new EntityExistsException(productDTO.getName() + " already exists!");
@@ -191,6 +194,26 @@ public class ProductServiceImpl implements ProductService {
         Category category = categoryRepository.findByName(productDTO.getCategory().getName());
         existingProduct.setCategory(category);
         return existingProduct;
+    }
+
+
+
+    @Override
+    public List<ProductDTO> getConvertedProducts(List<Product> products) {
+        return products.stream().map(this::convertToProductDTO).toList();
+    }
+
+
+    @Override
+    public ProductDTO convertToProductDTO(Product product) {
+        ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
+        List<Image> images = imageRepository.findImagesByProductId(product.getId());
+        List<ImageDTO> imageDTOS = images.stream()
+                .map(image -> modelMapper.map(image, ImageDTO.class))
+                .toList();
+
+        productDTO.setImages(imageDTOS);
+        return productDTO;
     }
 
 

@@ -20,7 +20,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @RestController
-@RequestMapping("${api.prefix}/images")
+@RequestMapping("/api/v1/images")
 @RequiredArgsConstructor
 public class ImageController {
 
@@ -51,7 +51,7 @@ public class ImageController {
     }
 
     @PutMapping("/image/{imageId}/update")
-    public ResponseEntity<ApiResponse> updateImage(@RequestBody MultipartFile file,
+    public ResponseEntity<ApiResponse> updateImage(@RequestParam MultipartFile file,
                                                    @PathVariable Long imageId){
 
         try {
