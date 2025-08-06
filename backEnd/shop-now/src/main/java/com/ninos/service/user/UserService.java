@@ -1,14 +1,15 @@
 package com.ninos.service.user;
 
+import com.ninos.dto.UserDTO;
 import com.ninos.model.User;
 import com.ninos.request.CreateUserRequest;
 import com.ninos.request.UpdateUserRequest;
 
 public interface UserService {
 
-    User createUser(CreateUserRequest request);
-    User updateUser(UpdateUserRequest request, Long userId);
-    User getUserById(Long userId);
+    UserDTO createUser(CreateUserRequest request);
+    UserDTO updateUser(UpdateUserRequest request, Long userId);
+    UserDTO getUserById(Long userId);
     void deleteUser(Long userId);
 
 }
