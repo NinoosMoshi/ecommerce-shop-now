@@ -6,18 +6,14 @@ import com.ninos.request.AddProductDTO;
 import com.ninos.request.UpdateProductDTO;
 import com.ninos.response.ApiResponse;
 import com.ninos.service.product.ProductService;
-import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/products")
+@RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
 public class ProductController {
 

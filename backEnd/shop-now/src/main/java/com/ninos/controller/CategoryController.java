@@ -3,17 +3,14 @@ package com.ninos.controller;
 import com.ninos.model.Category;
 import com.ninos.response.ApiResponse;
 import com.ninos.service.category.CategoryService;
-import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("${api.prefix}/categories")
+@RequestMapping("/api/v1/categories")
 @RequiredArgsConstructor
 public class CategoryController {
 
