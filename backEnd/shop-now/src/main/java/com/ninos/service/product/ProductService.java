@@ -12,9 +12,10 @@ public interface ProductService {
     Product updateProduct(UpdateProductDTO product, Long productId);
     Product getProductById(Long productId);
     void deleteProductById(Long productId);
-
     List<Product> getAllProducts();
+
     List<Product> getProductsByCategoryAndBrand(String category, String brand);
+
     List<Product> getProductsByCategory(String category);
     List<Product> getProductsByBrandAndName(String brand, String name);
     List<Product> getProductsByBrand(String brand);
