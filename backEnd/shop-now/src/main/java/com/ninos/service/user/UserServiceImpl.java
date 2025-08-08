@@ -46,23 +46,24 @@ public class UserServiceImpl implements UserService {
     }
 
 
-//    @Override
-//    public User updateUser(UpdateUserRequest request, Long userId) {
-//        return userRepository.findById(userId).map(existingUser -> {
-//            existingUser.setFirstName(request.getFirstName());
-//            existingUser.setLastName(request.getLastName());
-//            return userRepository.save(existingUser);
-//        }).orElseThrow(() -> new EntityNotFoundException("User not found"));
-//    }
     @Override
     public UserDTO updateUser(UpdateUserRequest request, Long userId) {
-        User existUser = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User with id " + userId + " not found"));
-        existUser.setFirstName(request.getFirstName());
-        existUser.setLastName(request.getLastName());
-        User savedUser = userRepository.save(existUser);
-        return modelMapper.map(savedUser, UserDTO.class);
+        return userRepository.findById(userId).map(existingUser -> {
+            existingUser.setFirstName(request.getFirstName());
+            existingUser.setLastName(request.getLastName());
+            User updatedUser = userRepository.save(existingUser);
+            return modelMapper.map(updatedUser, UserDTO.class);
+        }).orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
+//    @Override
+//    public UserDTO updateUser(UpdateUserRequest request, Long userId) {
+//        User existUser = userRepository.findById(userId)
+//                .orElseThrow(() -> new EntityNotFoundException("User with id " + userId + " not found"));
+//        existUser.setFirstName(request.getFirstName());
+//        existUser.setLastName(request.getLastName());
+//        User savedUser = userRepository.save(existUser);
+//        return modelMapper.map(savedUser, UserDTO.class);
+//    }
 
 
 

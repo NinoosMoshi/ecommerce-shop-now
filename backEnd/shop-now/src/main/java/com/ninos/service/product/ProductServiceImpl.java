@@ -88,9 +88,9 @@ public class ProductServiceImpl implements ProductService {
 //                .orElseThrow(() -> new EntityNotFoundException("Product not found!"));
 //
 //        // Remove product from cart items
-//        List<CartItem> cartItems = cartItemRepository.findByProductId(productId);
-//        for (CartItem cartItem : cartItems) {
-//            Cart cart = cartItem.getCart();
+//        List<CartItemService> cartItems = cartItemRepository.findByProductId(productId);
+//        for (CartItemService cartItem : cartItems) {
+//            CartService cart = cartItem.getCart();
 //            cart.removeItem(cartItem);
 //            cartItemRepository.delete(cartItem);
 //        }
