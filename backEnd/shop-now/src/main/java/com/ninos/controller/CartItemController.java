@@ -23,20 +23,20 @@ public class CartItemController {
 
 
     @PostMapping("/item/add")
-    public ResponseEntity<ApiResponse> addItemToCart( Long cartId,
+    public ResponseEntity<ApiResponse> addItemToCart(
+//                                                     Long userId,
                                                      @RequestParam Long productId,
                                                      @RequestParam int quantity) {
 
-        UserDTO user = userService.getUserById(cartId);
+        UserDTO user = userService.getUserById(3L);
         CartDTO cart = cartService.initializeNewCartForUser(user);
-        cartItemService.addItemToCart(cartId, productId, quantity);
+        cartItemService.addItemToCart(cart.getCartId(), productId, quantity);
         return ResponseEntity.ok(new ApiResponse("Item added successfully!", null));
     }
 
 
     @DeleteMapping("/cart/{cartId}/item/{itemId}/remove")
-    public ResponseEntity<ApiResponse> removeItemFromCart(@PathVariable Long cartId,
-                                                          @PathVariable Long itemId) {
+    public ResponseEntity<ApiResponse> removeItemFromCart(@PathVariable Long cartId, @PathVariable Long itemId) {
         cartItemService.removeItemFromCart(cartId, itemId);
         return ResponseEntity.ok(new ApiResponse("Item deleted successfully!", null));
     }

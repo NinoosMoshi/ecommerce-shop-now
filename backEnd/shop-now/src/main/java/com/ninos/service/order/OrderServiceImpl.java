@@ -1,5 +1,6 @@
 package com.ninos.service.order;
 
+import com.ninos.dto.OrderDTO;
 import com.ninos.enums.OrderStatus;
 import com.ninos.model.Cart;
 import com.ninos.model.Order;
@@ -9,7 +10,9 @@ import com.ninos.repository.OrderRepository;
 import com.ninos.repository.ProductRepository;
 import com.ninos.service.cart.CartService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -23,10 +26,13 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final CartService cartService;
+    private final ModelMapper modelMapper;
 
 
+
+    @Transactional
     @Override
-    public Order placeOrder(Long userId) {
+    public OrderDTO placeOrder(Long userId) {
         Cart cart = cartService.getCartByUserId(userId);
         Order order = createOrder(cart);
         List<OrderItem> orderItemList = createOrderItems(order, cart);
@@ -34,12 +40,14 @@ public class OrderServiceImpl implements OrderService {
         order.setTotalAmount(calculateTotalAmount(orderItemList));
         Order savedOrder = orderRepository.save(order);
         cartService.clearCart(cart.getId());
-        return savedOrder;
+        return modelMapper.map(savedOrder, OrderDTO.class);
     }
 
+
     @Override
-    public List<Order> getUserOrders(Long userId) {
-        return orderRepository.findOrdersByUserId(userId);
+    public List<OrderDTO> getUserOrders(Long userId) {
+        List<Order> orderList = orderRepository.findOrdersByUserId(userId);
+        return orderList.stream().map((order) -> modelMapper.map(order, OrderDTO.class)).toList();
     }
 
 
@@ -71,8 +79,6 @@ public class OrderServiceImpl implements OrderService {
                 .map(item -> item.getPrice().multiply(new BigDecimal(item.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
-
-
 
 
 }

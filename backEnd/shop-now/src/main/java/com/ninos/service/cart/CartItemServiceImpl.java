@@ -59,35 +59,62 @@ public class CartItemServiceImpl implements CartItemService {
 //        cartItemRepository.save(cartItem);
 //        cartRepository.save(cart);
 //    }
+
     @Override
     public void addItemToCart(Long cartId, Long productId, int quantity) {
         Cart cart = cartService.getCartById(cartId);
         Product product = productService.getProductById(productId);
-
-        // Check if item already exists in the cart
         CartItem cartItem = cart.getItems()
                 .stream()
                 .filter(item -> item.getProduct().getId().equals(productId))
-                .findFirst()
-                .orElse(new CartItem());  // If it doesn’t exist, we create a new CartItem.
-
+                .findFirst().orElse(new CartItem());
         if (cartItem.getId() == null) {
             cartItem.setCart(cart);
             cartItem.setProduct(product);
             cartItem.setQuantity(quantity);
             cartItem.setUnitPrice(product.getPrice());
         } else {
-            // Update quantity (either set or add)
             cartItem.setQuantity(cartItem.getQuantity() + quantity);
         }
-
-        // Update total price and add item to cart
         cartItem.setTotalPrice();
         cart.addItem(cartItem);
-
         cartItemRepository.save(cartItem);
         cartRepository.save(cart);
     }
+//    @Override
+//    public void addItemToCart(Long cartId, Long productId, int quantity) {
+//        Cart cart = cartService.getCartById(cartId);
+//        Product product = productService.getProductById(productId);
+//
+//        // Check if item already exists in the cart
+//        CartItem cartItem = cart.getItems()
+//                .stream()
+//                .filter(item -> item.getProduct().getId().equals(productId))
+//                .findFirst()
+//                .orElse(new CartItem());  // If it doesn’t exist, we create a new CartItem.
+//
+//        if (cartItem.getId() == null) {
+//            cartItem.setCart(cart);
+//            cartItem.setProduct(product);
+//            cartItem.setQuantity(quantity);
+//            cartItem.setUnitPrice(product.getPrice());
+//        } else {
+//            // Update quantity (either set or add)
+//            cartItem.setQuantity(cartItem.getQuantity() + quantity);
+//        }
+//
+//        // Update total price and add item to cart
+//        cartItem.setTotalPrice();
+//        cart.addItem(cartItem);
+//
+//        BigDecimal totalAmount = cart.getItems().stream()
+//                .map(CartItem::getTotalPrice)
+//                .reduce(BigDecimal.ZERO, BigDecimal::add);
+//        cart.setTotalAmount(totalAmount);
+//
+//        cartItemRepository.save(cartItem);
+//        cartRepository.save(cart);
+//    }
 
     @Override
     public void removeItemFromCart(Long cartId, Long productId) {

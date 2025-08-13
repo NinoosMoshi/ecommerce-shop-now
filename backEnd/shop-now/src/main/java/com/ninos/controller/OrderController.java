@@ -1,5 +1,6 @@
 package com.ninos.controller;
 
+import com.ninos.dto.OrderDTO;
 import com.ninos.model.Order;
 import com.ninos.response.ApiResponse;
 import com.ninos.service.order.OrderService;
@@ -17,17 +18,27 @@ public class OrderController {
     private final OrderService orderService;
 
 
+    //    @PostMapping("/user/order")
+//    public ResponseEntity<ApiResponse> placeOrder(@RequestParam Long userId) {
+//       Order order = orderService.placeOrder(userId);
+//       return ResponseEntity.ok().body(new ApiResponse("Order Placed successfully!", order));
+//    }
     @PostMapping("/user/order")
     public ResponseEntity<ApiResponse> placeOrder(@RequestParam Long userId) {
-       Order order = orderService.placeOrder(userId);
-       return ResponseEntity.ok().body(new ApiResponse("Order Placed successfully!", order));
+        OrderDTO orderDTO = orderService.placeOrder(userId);
+        return ResponseEntity.ok().body(new ApiResponse("Order Placed successfully!", orderDTO));
     }
 
 
+    //    @GetMapping("/user/{userId}/order")
+//    public ResponseEntity<ApiResponse> getUserOrders(@PathVariable Long userId) {
+//        List<Order> orders = orderService.getUserOrders(userId);
+//        return ResponseEntity.ok().body(new ApiResponse("Success!", orders));
+//    }
     @GetMapping("/user/{userId}/order")
     public ResponseEntity<ApiResponse> getUserOrders(@PathVariable Long userId) {
-        List<Order> orders = orderService.getUserOrders(userId);
-        return ResponseEntity.ok().body(new ApiResponse("Success!", orders));
+        List<OrderDTO> orderDTOS = orderService.getUserOrders(userId);
+        return ResponseEntity.ok().body(new ApiResponse("Success!", orderDTOS));
     }
 
 
