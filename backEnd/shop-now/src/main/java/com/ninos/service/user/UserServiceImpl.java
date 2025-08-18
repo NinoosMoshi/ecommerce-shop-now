@@ -9,6 +9,10 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,6 +23,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
 
 
 //    @Override
@@ -30,8 +35,9 @@ public class UserServiceImpl implements UserService {
 //                    user.setFirstName(request.getFirstName());
 //                    user.setLastName(request.getLastName());
 //                    user.setEmail(request.getEmail());
-//                    user.setPassword(request.getPassword());
-//                    return userRepository.save(user);
+//                    user.setPassword(passwordEncoder.encode(request.getPassword()));
+//                    User savedUser = userRepository.save(user);
+//                    return modelMapper.map(savedUser, UserDTO.class);
 //                }).orElseThrow(() -> new EntityNotFoundException("Oops! " + request.getEmail() + " already exists!"));
 //    }
     @Override
@@ -41,6 +47,7 @@ public class UserServiceImpl implements UserService {
             throw new EntityExistsException("User with email " + request.getEmail() + " already exists");
         }
         User user = modelMapper.map(request, User.class);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         User savedUser = userRepository.save(user);
         return modelMapper.map(savedUser, UserDTO.class);
     }
@@ -91,4 +98,18 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new EntityNotFoundException("User with id " + userId + " not found"));
         userRepository.delete(user);
     }
+
+
+    @Override
+    public UserDTO getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        User user = Optional.ofNullable(userRepository.findByEmail(email))
+                .orElseThrow(() -> new EntityNotFoundException("Log in required"));
+        return modelMapper.map(user, UserDTO.class);
+    }
+
+
+
+
 }
